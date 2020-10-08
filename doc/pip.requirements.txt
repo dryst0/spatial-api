@@ -1,0 +1,13 @@
+asgiref==3.2.8
+click==7.1.2
+Django==3.0.7
+djangorestframework==3.11.0
+djangorestframework-gis==0.15
+h11==0.9.0
+httptools==0.1.1
+psycopg2-binary==2.8.5
+pytz==2020.1
+sqlparse==0.3.1
+uvicorn==0.11.5
+uvloop==0.14.0
+websockets==8.1

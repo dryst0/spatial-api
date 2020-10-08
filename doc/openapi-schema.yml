@@ -1,0 +1,1512 @@
+openapi: 3.0.3
+info:
+  title: JFI GeoSpatial Microservice
+  version: 1.0.0
+  description: "\n    A microservice to perform GeoSpatial Queries.\n    As of now,\
+    \ the microservice is able to reverse geocode coordinates that belongs to the\
+    \ following countries:\n        India (Administrative Levels 0 to 2)\n       \
+    \ Indonesia (Administrative Levels 0 to 2)\n        Malaysia (Administrative Levels\
+    \ 0 to 2)\n        Philippines (Administrative Levels 0 to 3)\n        Singapore\
+    \ (Administrative Levels 0 to 2)\n    Administrative Level Data was provided from\
+    \ geoBoundaries by the William & Mary geoLab (https://www.geoboundaries.org/downloadFull.html#StandardizedCountry)\n\
+    \    More GeoSpatial Features and Queries will be supported soon.\n    "
+paths:
+  /openapi-schema.yml:
+    get:
+      operationId: openapi_schema.yml_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - openapi-schema.yml
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /world/v1/admin-levels/0:
+    get:
+      operationId: world_v1_admin_levels_0_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel0'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_0_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel0'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel0'
+          description: ''
+  /world/v1/admin-levels/0/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_0_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level0.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel0'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_0_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level0.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel0'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel0'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_0_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level0.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel0'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel0'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_0_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level0.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /world/v1/admin-levels/1:
+    get:
+      operationId: world_v1_admin_levels_1_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel1'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_1_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel1'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel1'
+          description: ''
+  /world/v1/admin-levels/1/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_1_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level1.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel1'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_1_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level1.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel1'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel1'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_1_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level1.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel1'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel1'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_1_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level1.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /world/v1/admin-levels/2:
+    get:
+      operationId: world_v1_admin_levels_2_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel2'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_2_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel2'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel2'
+          description: ''
+  /world/v1/admin-levels/2/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_2_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level2.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel2'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_2_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level2.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel2'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel2'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_2_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level2.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel2'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel2'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_2_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level2.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /world/v1/admin-levels/3:
+    get:
+      operationId: world_v1_admin_levels_3_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel3'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_3_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel3'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel3'
+          description: ''
+  /world/v1/admin-levels/3/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_3_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level3.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel3'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_3_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level3.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel3'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel3'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_3_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level3.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel3'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel3'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_3_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level3.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /world/v1/admin-levels/4:
+    get:
+      operationId: world_v1_admin_levels_4_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel4'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_4_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel4'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel4'
+          description: ''
+  /world/v1/admin-levels/4/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_4_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level4.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel4'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_4_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level4.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel4'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel4'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_4_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level4.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel4'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel4'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_4_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level4.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /world/v1/admin-levels/5:
+    get:
+      operationId: world_v1_admin_levels_5_list
+      description: ''
+      parameters:
+      - name: geometry
+        required: false
+        in: query
+        description: geometry
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+                    example: 123
+                  next:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=4
+                  previous:
+                    type: string
+                    nullable: true
+                    format: uri
+                    example: http://api.example.org/accounts/?page=2
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminLevel5'
+          description: ''
+    post:
+      operationId: world_v1_admin_levels_5_create
+      description: ''
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel5'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel5'
+          description: ''
+  /world/v1/admin-levels/5/{uuid}:
+    get:
+      operationId: world_v1_admin_levels_5_retrieve
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level5.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel5'
+          description: ''
+    put:
+      operationId: world_v1_admin_levels_5_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level5.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminLevel5'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel5'
+          description: ''
+    patch:
+      operationId: world_v1_admin_levels_5_partial_update
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level5.
+        required: true
+      tags:
+      - world
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAdminLevel5'
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminLevel5'
+          description: ''
+    delete:
+      operationId: world_v1_admin_levels_5_destroy
+      description: ''
+      parameters:
+      - in: path
+        name: uuid
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this admin level5.
+        required: true
+      tags:
+      - world
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    AdminLevel0:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso_3166_alpha_3:
+          type: string
+          maxLength: 3
+        geometry:
+          type: string
+      required:
+      - geometry
+      - iso_3166_alpha_3
+      - name
+      - uuid
+    AdminLevel1:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+      required:
+      - geometry
+      - name
+      - uuid
+    AdminLevel2:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+      required:
+      - geometry
+      - name
+      - uuid
+    AdminLevel3:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+      required:
+      - geometry
+      - name
+      - uuid
+    AdminLevel4:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+      required:
+      - geometry
+      - name
+      - uuid
+    AdminLevel5:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+      required:
+      - geometry
+      - name
+      - uuid
+    PatchedAdminLevel0:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso_3166_alpha_3:
+          type: string
+          maxLength: 3
+        geometry:
+          type: string
+    PatchedAdminLevel1:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+    PatchedAdminLevel2:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+    PatchedAdminLevel3:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+    PatchedAdminLevel4:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+    PatchedAdminLevel5:
+      type: object
+      description: |-
+        A subclass of ModelSerializer
+        that outputs geojson-ready data as
+        features and feature collections
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        iso:
+          type: string
+          nullable: true
+          maxLength: 5
+        geometry:
+          type: string
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: Session
+tags:
+- spatial
+- administrative-levels

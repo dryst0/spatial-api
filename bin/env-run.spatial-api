@@ -1,0 +1,151 @@
+#! /usr/bin/env bash
+
+set -e
+
+# API Main Domain
+if [ -z "$API_MAIN_DOMAIN" ]; then
+  echo "Error: Expected environment variable API_MAIN_DOMAIN not defined."
+  exit 1
+fi
+
+# API Version
+if [ -z "$API_VERSION" ]; then
+  echo "Error: Expected environment variable API_VERSION not defined."
+  exit 1
+fi
+
+# API Deploy Root
+if [ -z "$API_DEPLOY_ROOT" ]; then
+  echo "Error: Expected environment variable API_DEPLOY_ROOT not defined."
+  exit 1
+fi
+
+# API Allowed Hosts
+if [ -z "$API_ALLOWED_HOSTS" ]; then
+  echo "Error: Expected environment variable API_ALLOWED_HOSTS not defined."
+  exit 1
+fi
+
+# API Gunicorn Bind Hosts
+if [ -z "$API_GUNICORN_HOST" ]; then
+  echo "Error: Expected environment variable API_GUNICORN_HOST not defined."
+  exit 1
+fi
+
+# API Gunicorn Bind Port
+if [ -z "$API_GUNICORN_PORT" ]; then
+  echo "Error: Expected environment variable API_GUNICORN_PORT not defined."
+  exit 1
+fi
+
+# API Gunicorn Workers
+if [ -z "$API_GUNICORN_WORKERS" ]; then
+  echo "Error: Expected environment variable API_GUNICORN_WORKERS not defined."
+  exit 1
+fi
+
+# API Gunicorn Access Log File
+if [ -z "$API_GUNICORN_ACCESS_LOG_FILE" ]; then
+  echo "Error: Expected environment variable API_GUNICORN_ACCESS_LOG_FILE not defined."
+  exit 1
+fi
+
+# API Gunicorn Error Log File
+if [ -z "$API_GUNICORN_ERROR_LOG_FILE" ]; then
+  echo "Error: Expected environment variable API_GUNICORN_ERROR_LOG_FILE not defined."
+  exit 1
+fi
+
+# API Gunicorn Log Level
+if [ -z "$API_GUNICORN_LOG_LEVEL" ]; then
+  export API_GUNICORN_LOG_LEVEL=info
+fi
+
+# API Gunicorn Timeout
+if [ -z "$API_GUNICORN_TIMEOUT" ]; then
+  export API_GUNICORN_TIMEOUT=60
+fi
+
+# API DB Host
+if [ -z "$API_DB_HOST" ]; then
+  export API_DB_HOST="localhost"
+fi
+
+# API DB Port
+if [ -z "$API_DB_PORT" ]; then
+  export API_DB_PORT=5432
+fi
+
+# API DB Name
+if [ -z "$API_DB_NAME" ]; then
+  echo "Error: Expected environment variable API_DB_NAME not defined."
+  exit 1
+fi
+
+# API DB Username
+if [ -z "$API_DB_USERNAME" ]; then
+  echo "Error: Expected environment variable API_DB_USERNAME not defined."
+  exit 1
+fi
+
+# API DB Password
+if [ -z "$API_DB_PASSWORD" ]; then
+  echo "Error: Expected environment variable API_DB_PASSWORD not defined."
+  exit 1
+fi
+
+# API Secret Key
+if [ -z "$API_SECRET_KEY" ]; then
+  echo "Error: Expected environment variable API_SECRET_KEY not defined."
+  exit 1
+fi
+
+# API Timezone
+if [ -z "$API_TIME_ZONE" ]; then
+  export API_TIME_ZONE="UTC"
+fi
+
+# API Cache Host
+if [ -z "$API_CACHE_HOST" ]; then
+  export API_CACHE_HOST="localhost"
+fi
+
+# API Cache Port
+if [ -z "$API_CACHE_PORT" ]; then
+  export API_CACHE_PORT=6379
+fi
+
+# API Cache Database Index
+if [ -z "$API_CACHE_DATABASE_INDEX" ]; then
+  export API_CACHE_DATABASE_INDEX=0
+fi
+
+# API CACHE Password
+if [ -z "$API_CACHE_PASSWORD" ]; then
+  echo "Error: Expected environment variable API_CACHE_PASSWORD not defined."
+  exit 1
+fi
+
+# API CACHE Max Connections
+if [ -z "$API_CACHE_MAX_CONNECTIONS" ]; then
+  export API_CACHE_MAX_CONNECTIONS=2
+fi
+
+# API CACHE Retry on Timeout
+if [ -z "$API_CACHE_RETRY_ON_TIMEOUT" ]; then
+  export API_CACHE_RETRY_ON_TIMEOUT=True
+fi
+
+# API CACHE Pickle Version
+if [ -z "$API_CACHE_PICKLE_VERSION" ]; then
+  export API_CACHE_PICKLE_VERSION=-1
+fi
+
+exec gunicorn api.asgi:application \
+     --bind=$API_GUNICORN_HOST:$API_GUNICORN_PORT \
+     --worker-class=uvicorn.workers.UvicornWorker \
+     --workers=$API_GUNICORN_WORKERS \
+     --access-logfile=$API_GUNICORN_ACCESS_LOG_FILE \
+     --error-logfile=$API_GUNICORN_ERROR_LOG_FILE \
+     --log-level=$API_GUNICORN_LOG_LEVEL \
+     --timeout=$API_GUNICORN_TIMEOUT
